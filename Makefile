@@ -107,11 +107,11 @@ COMMON+= `pkg-config --cflags opencv4 2> /dev/null || pkg-config --cflags opencv
 endif
 
 ifeq ($(OPENMP), 1)
-    ifeq ($(OS),Darwin) #MAC
-        CFLAGS+= -Xpreprocessor -fopenmp
-    else
-        CFLAGS+= -fopenmp
-    endif
+	ifeq ($(OS),Darwin) #MAC
+		CFLAGS+= -Xpreprocessor -fopenmp
+	else
+		CFLAGS+= -fopenmp
+	endif
 LDFLAGS+= -lgomp
 endif
 
@@ -168,34 +168,34 @@ ifeq ($(LIBSO), 1)
 CFLAGS+= -fPIC
 
 $(LIBNAMESO): $(OBJDIR) $(OBJS) include/yolo_v2_class.hpp src/yolo_v2_class.cpp
-    $(CPP) -shared -std=c++11 -fvisibility=hidden -DLIB_EXPORTS $(COMMON) $(CFLAGS) $(OBJS) src/yolo_v2_class.cpp -o $@ $(LDFLAGS)
+	$(CPP) -shared -std=c++11 -fvisibility=hidden -DLIB_EXPORTS $(COMMON) $(CFLAGS) $(OBJS) src/yolo_v2_class.cpp -o $@ $(LDFLAGS)
 
 $(APPNAMESO): $(LIBNAMESO) include/yolo_v2_class.hpp src/yolo_console_dll.cpp
-    $(CPP) -std=c++11 $(COMMON) $(CFLAGS) -o $@ src/yolo_console_dll.cpp $(LDFLAGS) -L ./ -l:$(LIBNAMESO)
+	$(CPP) -std=c++11 $(COMMON) $(CFLAGS) -o $@ src/yolo_console_dll.cpp $(LDFLAGS) -L ./ -l:$(LIBNAMESO)
 endif
 
 $(EXEC): $(OBJS)
-    $(CPP) -std=c++11 $(COMMON) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+	$(CPP) -std=c++11 $(COMMON) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(OBJDIR)%.o: %.c $(DEPS)
-    $(CC) $(COMMON) $(CFLAGS) -c $< -o $@
+	$(CC) $(COMMON) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)%.o: %.cpp $(DEPS)
-    $(CPP) -std=c++11 $(COMMON) $(CFLAGS) -c $< -o $@
+	$(CPP) -std=c++11 $(COMMON) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)%.o: %.cu $(DEPS)
-    $(NVCC) $(ARCH) $(COMMON) --compiler-options "$(CFLAGS)" -c $< -o $@
+	$(NVCC) $(ARCH) $(COMMON) --compiler-options "$(CFLAGS)" -c $< -o $@
 
 $(OBJDIR):
-    mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)
 backup:
-    mkdir -p backup
+	mkdir -p backup
 results:
-    mkdir -p results
+	mkdir -p results
 setchmod:
-    chmod +x *.sh
+	chmod +x *.sh
 
 .PHONY: clean
 
 clean:
-    rm -rf $(OBJS) $(EXEC) $(LIBNAMESO) $(APPNAMESO)
+	rm -rf $(OBJS) $(EXEC) $(LIBNAMESO) $(APPNAMESO)
