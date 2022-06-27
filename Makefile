@@ -102,8 +102,8 @@ endif
 ifeq ($(OPENCV), 1) 
 COMMON+= -DOPENCV
 CFLAGS+= -DOPENCV
-LDFLAGS+= `pkg-config --libs opencv4` -lstdc++
-COMMON+= `pkg-config --cflags opencv4` 
+LDFLAGS+= `pkg-config --libs /usr/lib/x86_64-linux-gnu/pkgconfig/opencv4.pc` -lstdc++
+COMMON+= `pkg-config --cflags /usr/lib/x86_64-linux-gnu/pkgconfig/opencv4.pc` 
 endif
 
 ifeq ($(OPENMP), 1)
