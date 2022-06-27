@@ -99,11 +99,11 @@ ifneq (,$(findstring MSYS_NT,$(OS)))
 LDFLAGS+=-lws2_32
 endif
 
-ifeq ($(OPENCV), 1)
+ifeq ($(OPENCV), 1) 
 COMMON+= -DOPENCV
 CFLAGS+= -DOPENCV
-LDFLAGS+= `pkg-config --libs opencv4 2> /dev/null || pkg-config --libs opencv`
-COMMON+= `pkg-config --cflags opencv4 2> /dev/null || pkg-config --cflags opencv`
+LDFLAGS+= `pkg-config --libs opencv4` -lstdc++
+COMMON+= `pkg-config --cflags opencv4` 
 endif
 
 ifeq ($(OPENMP), 1)
